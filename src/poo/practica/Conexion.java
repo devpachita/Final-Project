@@ -25,7 +25,7 @@ public class Conexion{
             pst.setString(1, "0");
             pst.setString(2, nombre);
             pst.setString(3, apellido);
-            //pst.setString(4, contraseña);
+            //pst.setString(4, contraseña)
             pst.executeUpdate();
             
             return true;
