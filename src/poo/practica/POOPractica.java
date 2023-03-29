@@ -8,18 +8,31 @@ public class POOPractica {
 
     public static void main(String[] args) throws InterruptedException {
         
-        String nombre, contraseñaOwner = "1", contraseñaPensionado = "2";
+        String nombre1, contraseñaOwner = "1", contraseñaPensionado = "2";
         int hora, dia = 0, opcionFood = 0, opcionState = 0, diaCambio = 0, opcionCambio = 0;
         boolean desayuno, almuerzo, cena;
         
         int usuario, opcionOwner;
         boolean salir = false;
         
-        nombre = "Francisco";
+        nombre1 = "Francisco";
         hora = 700;
         desayuno = false;
         almuerzo = false;
         cena = false;
+        
+        //AÑADIR USUARIO BASE DE DATOS
+        
+        Conexion cn = new Conexion();
+        String nombre = JOptionPane.showInputDialog("Ingresa nombre");
+        String apellido = JOptionPane.showInputDialog("Ingresa apellido");
+        
+        boolean added = cn.addDatabase(nombre, apellido);
+        if(added) {
+            JOptionPane.showMessageDialog(null, "Agregado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
         
         
         Scanner sn = new Scanner (System.in);
@@ -30,6 +43,7 @@ public class POOPractica {
        
         usuario = Integer.parseInt(JOptionPane.showInputDialog("Desea Ingresar the owner o un pensionado: \n" + "1. Owner \n2. Pensionado"));
         
+       
         if (usuario == 1) {
             
             int comp = 0;
