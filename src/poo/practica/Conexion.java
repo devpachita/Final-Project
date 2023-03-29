@@ -36,4 +36,11 @@ public class Conexion{
             return false;
         }
     }
+    
+    public void agregarComida(){
+    
+        
+    
+    
+    }
 }

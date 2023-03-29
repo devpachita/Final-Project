@@ -1,17 +1,18 @@
-
 package poo.practica;
 
 import javax.swing.JOptionPane;
+import java.sql.*;
 
+public class ClaseProyecto {
 
-public class ClasePractica {
-    
     private String nombre, contraseñaOwner;
     private int hora, dia, opcionFood, opcionState, opcionCambio, diaCambio;
     private boolean desayuno, almuerzo, cena, pass;
-    
-    public ClasePractica(){
-    
+
+    Conexion cn = new Conexion();
+
+    public ClaseProyecto() {
+
         this.nombre = null;
         this.almuerzo = false;
         this.cena = false;
@@ -22,11 +23,11 @@ public class ClasePractica {
         this.opcionState = 0;
         this.opcionCambio = 0;
         this.diaCambio = 0;
-    
+
     }
-    
-    public ClasePractica(String nombre, int hora, int dia, int opcionFood, int opcionState, int diaCambio, int opcionCambio, boolean desayuno, boolean almuerzo, boolean cena){
-    
+
+    public ClaseProyecto(String nombre, int hora, int dia, int opcionFood, int opcionState, int diaCambio, int opcionCambio, boolean desayuno, boolean almuerzo, boolean cena) {
+
         this.nombre = nombre;
         this.desayuno = desayuno;
         this.almuerzo = almuerzo;
@@ -37,40 +38,34 @@ public class ClasePractica {
         this.opcionState = opcionState;
         this.diaCambio = diaCambio;
         this.opcionCambio = opcionCambio;
-    
-    
+
     }
-    
+
     public static String[] nombresPensionados = {
-    
         "FRANCISCO", "JUAN SOLO", "SAMUEL"
-    
-    
+
     };
-    
+
     public static String[] estadoComida = {
-    
         "SERVIDO", "NO SERVIDO"
-     
+
     };
-    
+
     public static String[][] comidasDias = {
-    
-        {"GUINEO CON SALCHICHA" , "BOLLITOS CON HUEVO", "YUCA CON HUEVO" , "AREPA DE CHOCLO CON QUESO", "SANDWICH CON QUESO", "GUINEO CON HUEVO"},
+        {"GUINEO CON SALCHICHA", "BOLLITOS CON HUEVO", "YUCA CON HUEVO", "AREPA DE CHOCLO CON QUESO", "SANDWICH CON QUESO", "GUINEO CON HUEVO"},
         {"POLLO, LENTEJAS, TAJADAS Y ARROZ", "CARNE, LENTEJAS, PATACONES Y ARROZ", "ARROZ CON POLLO, TAJADAS", "SOPA DE POLLO CON ARROZ", "POLLO ASADO, LENTEJAS, TAJADAS Y ARROZ", "CERDO, ARROZ, ENSALADA Y ARROZ"},
-        {"ROSQUETES" , "EMPANADAS", "PASTA CON SLACHICA", "ARROZ DE SALCHICA", "ARROZ CON LECHE", "PERRO CALIENTE"}
-    
+        {"ROSQUETES", "EMPANADAS", "PASTA CON SLACHICA", "ARROZ DE SALCHICA", "ARROZ CON LECHE", "PERRO CALIENTE"}
+
     };
-    
+
     public static String[] diasSemana = {
-
-        "LUNES" , "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"
+        
+        "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"
 
     };
-    
-    public static String[] stockFood = {
 
-        "DESAYUNO" , "ALMUERZO", "CENA"
+    public static String[] stockFood = {
+        "DESAYUNO", "ALMUERZO", "CENA"
 
     };
 
@@ -137,172 +132,186 @@ public class ClasePractica {
     public void setOpcionState(int opcionState) {
         this.opcionState = opcionState;
     }
-    
-    
-    
+
     //Menu Para Pensionados (Prototipo)
-   
-    public String menuPensionado(){
-                
+    public String menuPensionado() {
+
         for (int i = 0; i < comidasDias.length; i++) {
             for (int j = 0; j < comidasDias.length; j++) {
-                
-                return "Menu del Dia " + dia + "\n { " + "DESAYUNO: " + comidasDias[i][dia - 1] + " \t ESTADO: " + estadoComida[i];
-                
-            }
-            
-        }
-        
-        //TERMINAR DE COMPLETAR EL MENU QUE SE LE MOSTRARA A LOS PENSIONADOS
-    
-        return nombre;
-    
-    }
-    
-    
-    //METODOS ESPECIALES PARA EL OWNER
-    
-    public void reinicio() throws InterruptedException{
-        
-        Thread.sleep(3500); 
-        
-        int lineas = 15;
-            
-        for (int i=0; i < lineas; i++){
-                                        
-        System.out.println();
 
-        //PUEDE REMPLAZARSE EL DO WHILE SI SE ENCUNETRA UNA FORMA DE LIMPIAR LA CONSOLA SIN TENER QUE AGREGAR UN MONTON DE ESPACIOS
-        
+                return "Menu del Dia " + dia + "\n { " + "DESAYUNO: " + comidasDias[i][dia - 1] + " \t ESTADO: " + estadoComida[i];
+
+            }
+
         }
-        
+
+        //TERMINAR DE COMPLETAR EL MENU QUE SE LE MOSTRARA A LOS PENSIONADOS
+        return nombre;
+
+    }
+
+    //METODOS ESPECIALES PARA EL OWNER
+    public void reinicio() throws InterruptedException {
+
+        Thread.sleep(2000);
+
+        int lineas = 15;
+
+        for (int i = 0; i < lineas; i++) {
+
+            System.out.println();
+
+            //PUEDE REMPLAZARSE EL DO WHILE SI SE ENCUNETRA UNA FORMA DE LIMPIAR LA CONSOLA SIN TENER QUE AGREGAR UN MONTON DE ESPACIOS
+        }
+
         System.out.println("\nComo Owner tiene acesso a todas estas funciones. Cual desea usar: \n");
-        
+
         opcionesOwner();
-        
+
     }
-    
-    public void opcionesOwner(){
-        
+
+    public void opcionesOwner() {
+
         System.out.println("1. setState. \n2. showMenu. \n3. changeMenu \n4. Salir");
-    
+
     }
-    
-    public void changeMenu() throws InterruptedException{
+
+    public void changeMenuSQL() throws InterruptedException {
+
         
-        int opcioncambio = Integer.parseInt(JOptionPane.showInputDialog("¿Que plato desea cambiar? \n1. Desayuno \n2. Almuerzo \n3. Cena"));
-        int diacambio = Integer.parseInt(JOptionPane.showInputDialog("¿De que dia?"));
         
-        String nuevaComida = JOptionPane.showInputDialog("¿Cual es el nuevo plato que desea introducir?");
-        comidasDias[opcioncambio - 1][diacambio - 1] = nuevaComida;
-        
-        System.out.println("\nUsted ha cambiado el " + stockFood [opcioncambio - 1] + " del DIA " + diasSemana [diaCambio] + " a " + nuevaComida);
         reinicio();
-        
+
     }
-    
-    // METODOS DE USO GENERAL
-    
-    public void changeDia() throws InterruptedException{
-    
-        int dia = Integer.parseInt(JOptionPane.showInputDialog("¿Cual es el dia que desea consultar?"));
-        setDia(dia);
-        reinicio();
-    
-    
-    }
-    
-    public void showMenu() throws InterruptedException{
-        
-        dia = Integer.parseInt(JOptionPane.showInputDialog("¿En que dia se encuentra?"));
-    
-        System.out.println("\nEl menu del Día " + diasSemana[dia - 1] + " es:\n");
-        
-            for (int i = 0; i < comidasDias.length; i++) {
+
+    public void showMenuSQL() throws InterruptedException {
+
+            try {
+
+                Class.forName("com.mysql.jdbc.Driver");
+
+                Connection conesion = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
                 
-                System.out.println(comidasDias[i][dia - 1] + "\n");
-            
+                int cd = Integer.parseInt(JOptionPane.showInputDialog("¿Que dia de la seman desea consultar? \n1. Lunes \n2. Martes \n3. Miercoles \n4. Jueves \n5. Viernes \n6. Sabado"));
+
+                //Select * from Prueba
+                Statement ejecutor = conesion.createStatement();
+                ResultSet respuesta = ejecutor.executeQuery("select nombre, dia, tipo  from comidas where codigo_dia = " + cd);
+
+                String texto = "";
+
+                while (respuesta.next()) {
+
+                    texto = texto + respuesta.getString("tipo") + " del dia " + respuesta.getString("dia") +  " es " + respuesta.getString("nombre") + "\n\n";
+                    //"El MENU del DIA " + diasSemana[cd - 1] +
+                }
+
+                JOptionPane.showMessageDialog(null, texto);
+                
+            } catch (Exception e) {
+                
+                JOptionPane.showInternalMessageDialog(null, "error al conectar \n" + e);
+                
             }
             
             reinicio();
-    }
-    
-    // METODOS ESPECIALES PARA LOS PENSIONADOS
-    
-    public void opcionesPensionado(){
-    
-        System.out.println("\n1. getFoodDay \n2. getState \n3. solicitarCambio \n4. getHistorial \n5. showMenu \n6. SALIR ");
-    
-    }
-    
-    public void reinicioPension() throws InterruptedException{
-        
-        Thread.sleep(3500); 
-        
-        int lineas = 15;
-            
-        for (int i=0; i < lineas; i++){
-                                        
-        System.out.println();
 
-        //PUEDE REMPLAZARSE EL DO WHILE SI SE ENCUNETRA UNA FORMA DE LIMPIAR LA CONSOLA SIN TENER QUE AGREGAR UN MONTON DE ESPACIOS
-        
+
+    }
+
+    // METODOS DE USO
+    public void changeDia() throws InterruptedException {
+
+        int dia = Integer.parseInt(JOptionPane.showInputDialog("¿Cual es el dia que desea consultar?"));
+        setDia(dia);
+        reinicio();
+
+    }
+
+    public void showMenu() throws InterruptedException {
+
+        dia = Integer.parseInt(JOptionPane.showInputDialog("¿En que dia se encuentra?"));
+
+        System.out.println("\nEl menu del Día " + diasSemana[dia - 1] + " es:\n");
+
+        for (int i = 0; i < comidasDias.length; i++) {
+
+            System.out.println(comidasDias[i][dia - 1] + "\n");
+
         }
-        
+
+        reinicio();
+    }
+
+    // METODOS ESPECIALES PARA LOS PENSIONADOS
+    public void opcionesPensionado() {
+
+        System.out.println("\n1. getFoodDay \n2. getState \n3. solicitarCambio \n4. getHistorial \n5. showMenu \n6. SALIR ");
+
+    }
+
+    public void reinicioPension() throws InterruptedException {
+
+        Thread.sleep(3500);
+
+        int lineas = 15;
+
+        for (int i = 0; i < lineas; i++) {
+
+            System.out.println();
+
+            //PUEDE REMPLAZARSE EL DO WHILE SI SE ENCUNETRA UNA FORMA DE LIMPIAR LA CONSOLA SIN TENER QUE AGREGAR UN MONTON DE ESPACIOS
+        }
+
         System.out.println("\nComo Pensionado tiene acesso a todas estas funciones. Cual desea usar: \n");
-        
+
         opcionesPensionado();
-    
+
     }
-    
-    public void getState(){
-        
+
+    public void getState() {
+
         if (opcionState == 1 && desayuno == true) {
-            
+
             System.out.println("El DESAYUNO esta SERVIDO.");
-            
+
         } else {
-        
+
             System.out.println("El DESAYUNO NO SERVIDO");
-        
+
         }
-        
+
         if (opcionState == 2 && almuerzo == true) {
-            
+
             System.out.println("El ALMUERZO esta SERVIDO.");
-        
+
         } else {
-        
+
             System.out.println("El ALMUERZO NO SERVIDO");
-            
+
         }
-        
+
         if (opcionState == 3 && cena == true) {
-        
+
             System.out.println("La CENA esta SERVIDA.");
-            
+
         } else {
-        
+
             System.out.println("La CENA NO SERVIDA");
-        
-        } 
-        
-    
+
+        }
+
     }
-    
-    public void getFoodDay() throws InterruptedException{
-        
+
+    public void getFoodDay() throws InterruptedException {
+
         int opcionFood = Integer.parseInt(JOptionPane.showInputDialog("\n¿Que plato desea concoer el menu? \n1. Desayuno \n2. Almuerzo \n3. Cena"));
         setOpcionFood(opcionFood);
-        
-        System.out.println("\n" + stockFood[opcionFood-1] + " del DIA " + diasSemana[dia] + " es: \n" + comidasDias[opcionFood-1][dia]);
-        
+
+        System.out.println("\n" + stockFood[opcionFood - 1] + " del DIA " + diasSemana[dia] + " es: \n" + comidasDias[opcionFood - 1][dia]);
+
         reinicioPension();
-        
+
     }
-    
-   
-    
-   
-    
+
 }

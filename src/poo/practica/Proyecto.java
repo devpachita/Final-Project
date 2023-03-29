@@ -4,7 +4,7 @@ package poo.practica;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-public class POOPractica {
+public class Proyecto {
 
     public static void main(String[] args) throws InterruptedException {
         
@@ -24,7 +24,8 @@ public class POOPractica {
         //AÑADIR USUARIO BASE DE DATOS
         
         Conexion cn = new Conexion();
-        String nombre = JOptionPane.showInputDialog("Ingresa nombre");
+        
+        /*String nombre = JOptionPane.showInputDialog("Ingresa nombre");
         String apellido = JOptionPane.showInputDialog("Ingresa apellido");
         
         boolean added = cn.addDatabase(nombre, apellido);
@@ -34,10 +35,11 @@ public class POOPractica {
             JOptionPane.showMessageDialog(null, "Error");
         }
         
+        */
         
         Scanner sn = new Scanner (System.in);
         
-        ClasePractica pension = new ClasePractica(nombre, hora, dia, opcionFood, opcionState, diaCambio, opcionCambio, desayuno, almuerzo, cena);
+        ClaseProyecto pension = new ClaseProyecto(nombre1, hora, dia, opcionFood, opcionState, diaCambio, opcionCambio, desayuno, almuerzo, cena);
        
        //Inicio con el dueño de la pension
        
@@ -85,37 +87,37 @@ public class POOPractica {
                     
                             case 1:
                             
-                                hora = Integer.parseInt(JOptionPane.showInputDialog("¿Que hora es?"));
-                                pension.setHora(hora);
-                        
-                                if (hora >= 700 && hora <1200 ) {
-                                
-                                    pension.setDesayuno(true);
-                                    pension.setAlmuerzo(false);
-                                    pension.setCena(false);
-                                    System.out.println("A todos los pensionados se les ha cambiado el estado a SERVIDO del DESAYUNO.");
-                                    
-                                    pension.reinicio();
-                                    
-                                }else if(hora >= 1200 && hora < 1800){
-                                
-                                    pension.setDesayuno(true);
-                                    pension.setAlmuerzo(true);
-                                    pension.setCena(false);
-                                    System.out.println("A todos los pensionados se les ha cambiado el estado a SERVIDO del DESAYUNO y ALMUERZO."); 
-                                     
-                                    pension.reinicio();
-                                    
-                                }else if(hora >= 1800 && hora < 0000){
-                                
-                                    pension.setDesayuno(true);
-                                    pension.setAlmuerzo(true);
-                                    pension.setCena(true);
-                                    System.out.println("A todos los pensionados se les ha cambiado el estado de TODAS LAS COMIDAS como SERVIDAS.");
-                                    
-                                    pension.reinicio();
-
-                                }
+//                                hora = Integer.parseInt(JOptionPane.showInputDialog("¿Que hora es?"));
+//                                pension.setHora(hora);
+//                        
+//                                if (hora >= 700 && hora <1200 ) {
+//                                
+//                                    pension.setDesayuno(true);
+//                                    pension.setAlmuerzo(false);
+//                                    pension.setCena(false);
+//                                    System.out.println("A todos los pensionados se les ha cambiado el estado a SERVIDO del DESAYUNO.");
+//                                    
+//                                    pension.reinicio();
+//                                    
+//                                }else if(hora >= 1200 && hora < 1800){
+//                                
+//                                    pension.setDesayuno(true);
+//                                    pension.setAlmuerzo(true);
+//                                    pension.setCena(false);
+//                                    System.out.println("A todos los pensionados se les ha cambiado el estado a SERVIDO del DESAYUNO y ALMUERZO."); 
+//                                     
+//                                    pension.reinicio();
+//                                    
+//                                }else if(hora >= 1800 && hora < 0000){
+//                                
+//                                    pension.setDesayuno(true);
+//                                    pension.setAlmuerzo(true);
+//                                    pension.setCena(true);
+//                                    System.out.println("A todos los pensionados se les ha cambiado el estado de TODAS LAS COMIDAS como SERVIDAS.");
+//                                    
+//                                    pension.reinicio();
+//
+//                                }
                                 
                                 //SE NECESITA LA BASE DE DATOS 
                             
@@ -123,11 +125,11 @@ public class POOPractica {
                         
                             case 2:
                                 
-                                pension.showMenu();
+                                pension.showMenuSQL();
                                 
                             case 3:
                                 
-                                pension.changeMenu();
+                                pension.changeMenuSQL();
                                 
                                         
                             break;
