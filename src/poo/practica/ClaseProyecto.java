@@ -2,54 +2,25 @@ package poo.practica;
 
 import javax.swing.JOptionPane;
 import java.sql.*;
+import java.util.Calendar;
 
 public class ClaseProyecto {
 
-    private String nombre, contraseñaOwner;
-    private int hora, dia, opcionFood, opcionState, opcionCambio, diaCambio;
-    private boolean desayuno, almuerzo, cena, pass;
+    private String nombre1, contraseñaOwner;
 
     Conexion cn = new Conexion();
 
     public ClaseProyecto() {
 
-        this.nombre = null;
-        this.almuerzo = false;
-        this.cena = false;
-        this.desayuno = false;
-        this.hora = 0000;
-        this.dia = 0;
-        this.opcionFood = 0;
-        this.opcionState = 0;
-        this.opcionCambio = 0;
-        this.diaCambio = 0;
+        this.nombre1 = null;
 
     }
 
-    public ClaseProyecto(String nombre, int hora, int dia, int opcionFood, int opcionState, int diaCambio, int opcionCambio, boolean desayuno, boolean almuerzo, boolean cena) {
+    public ClaseProyecto(String nombre1) {
 
-        this.nombre = nombre;
-        this.desayuno = desayuno;
-        this.almuerzo = almuerzo;
-        this.cena = cena;
-        this.hora = hora;
-        this.dia = dia;
-        this.opcionFood = opcionFood;
-        this.opcionState = opcionState;
-        this.diaCambio = diaCambio;
-        this.opcionCambio = opcionCambio;
+        this.nombre1 = nombre1;
 
     }
-
-    public static String[] nombresPensionados = {
-        "FRANCISCO", "JUAN SOLO", "SAMUEL"
-
-    };
-
-    public static String[] estadoComida = {
-        "SERVIDO", "NO SERVIDO"
-
-    };
 
     public static String[][] comidasDias = {
         {"GUINEO CON SALCHICHA", "BOLLITOS CON HUEVO", "YUCA CON HUEVO", "AREPA DE CHOCLO CON QUESO", "SANDWICH CON QUESO", "GUINEO CON HUEVO"},
@@ -59,7 +30,6 @@ public class ClaseProyecto {
     };
 
     public static String[] diasSemana = {
-        
         "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"
 
     };
@@ -69,85 +39,26 @@ public class ClaseProyecto {
 
     };
 
+    public static String[][] n_servido = {
+        {"1", "4", "7", "10", "13", "16"},
+        {"2", "5", "8", "11", "14", "15"},
+        {"3", "6", "9", "12", "15", "18"}
+
+    };
+    
+    public static String[] servir_no = {
+    
+        "SERVIR", "NO SERVIR"
+    
+    
+    };
+
     public String getNombre() {
-        return nombre;
+        return nombre1;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public boolean isDesayuno() {
-        return desayuno;
-    }
-
-    public void setDesayuno(boolean desayuno) {
-        this.desayuno = desayuno;
-    }
-
-    public boolean isAlmuerzo() {
-        return almuerzo;
-    }
-
-    public void setAlmuerzo(boolean almuerzo) {
-        this.almuerzo = almuerzo;
-    }
-
-    public boolean isCena() {
-        return cena;
-    }
-
-    public void setCena(boolean cena) {
-        this.cena = cena;
-    }
-
-    public int getHora() {
-        return hora;
-    }
-
-    public void setHora(int hora) {
-        this.hora = hora;
-    }
-
-    public int getDia() {
-        return dia;
-    }
-
-    public void setDia(int dia) {
-        this.dia = dia;
-    }
-
-    public int getOpcionFood() {
-        return opcionFood;
-    }
-
-    public void setOpcionFood(int opcionFood) {
-        this.opcionFood = opcionFood;
-    }
-
-    public int getOpcionState() {
-        return opcionState;
-    }
-
-    public void setOpcionState(int opcionState) {
-        this.opcionState = opcionState;
-    }
-
-    //Menu Para Pensionados (Prototipo)
-    public String menuPensionado() {
-
-        for (int i = 0; i < comidasDias.length; i++) {
-            for (int j = 0; j < comidasDias.length; j++) {
-
-                return "Menu del Dia " + dia + "\n { " + "DESAYUNO: " + comidasDias[i][dia - 1] + " \t ESTADO: " + estadoComida[i];
-
-            }
-
-        }
-
-        //TERMINAR DE COMPLETAR EL MENU QUE SE LE MOSTRARA A LOS PENSIONADOS
-        return nombre;
-
+    public void setNombre(String nombre1) {
+        this.nombre1 = nombre1;
     }
 
     //METODOS ESPECIALES PARA EL OWNER
@@ -161,7 +72,7 @@ public class ClaseProyecto {
 
             System.out.println();
 
-            //PUEDE REMPLAZARSE EL DO WHILE SI SE ENCUNETRA UNA FORMA DE LIMPIAR LA CONSOLA SIN TENER QUE AGREGAR UN MONTON DE ESPACIOS
+            //PUEDE REMPLAZARSE EL DO WHILE SI SE ENCUENTRA UNA FORMA DE LIMPIAR LA CONSOLA SIN TENER QUE AGREGAR UN MONTON DE ESPACIOS
         }
 
         System.out.println("\nComo Owner tiene acesso a todas estas funciones. Cual desea usar: \n");
@@ -172,75 +83,75 @@ public class ClaseProyecto {
 
     public void opcionesOwner() {
 
-        System.out.println("1. setState. \n2. showMenu. \n3. changeMenu \n4. Salir");
+        System.out.println("1. startDay. \n2. showMenu. \n3. changeMenu. \n4. Salir. ");
 
     }
 
+    //UPDATE MENU MODEL
     public void changeMenuSQL() throws InterruptedException {
 
-        
-        
-        reinicio();
+        try {
 
-    }
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conesion = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
 
-    public void showMenuSQL() throws InterruptedException {
+            int id = Integer.parseInt(JOptionPane.showInputDialog("¿Que comida desea a cambiar? \n1. Desayuno \n2. Almuerzo \n3. Cena"));
 
-            try {
+            int tipa = Integer.parseInt(JOptionPane.showInputDialog("¿De que dia? \n1. Lunes \n2. Martes \n3. Miercoles \n4. Jueves \n5. Viernes \n6. Sabado"));
 
-                Class.forName("com.mysql.jdbc.Driver");
+            String comando = "Update comidas set nombre = ? where n_servido = " + n_servido[id - 1][tipa - 1];
+            String newName = JOptionPane.showInputDialog("¿Por cual comida desea cambiar ?");
 
-                Connection conesion = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
-                
-                int cd = Integer.parseInt(JOptionPane.showInputDialog("¿Que dia de la seman desea consultar? \n1. Lunes \n2. Martes \n3. Miercoles \n4. Jueves \n5. Viernes \n6. Sabado"));
+            PreparedStatement declaracion = conesion.prepareStatement(comando);
 
-                //Select * from Prueba
-                Statement ejecutor = conesion.createStatement();
-                ResultSet respuesta = ejecutor.executeQuery("select nombre, dia, tipo  from comidas where codigo_dia = " + cd);
+            declaracion.setString(1, newName);
 
-                String texto = "";
+            int resultado = declaracion.executeUpdate();
+            if (resultado > 0) {
 
-                while (respuesta.next()) {
+                JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente");
 
-                    texto = texto + respuesta.getString("tipo") + " del dia " + respuesta.getString("dia") +  " es " + respuesta.getString("nombre") + "\n\n";
-                    //"El MENU del DIA " + diasSemana[cd - 1] +
-                }
-
-                JOptionPane.showMessageDialog(null, texto);
-                
-            } catch (Exception e) {
-                
-                JOptionPane.showInternalMessageDialog(null, "error al conectar \n" + e);
-                
             }
-            
-            reinicio();
 
+        } catch (Exception e) {
 
-    }
-
-    // METODOS DE USO
-    public void changeDia() throws InterruptedException {
-
-        int dia = Integer.parseInt(JOptionPane.showInputDialog("¿Cual es el dia que desea consultar?"));
-        setDia(dia);
-        reinicio();
-
-    }
-
-    public void showMenu() throws InterruptedException {
-
-        dia = Integer.parseInt(JOptionPane.showInputDialog("¿En que dia se encuentra?"));
-
-        System.out.println("\nEl menu del Día " + diasSemana[dia - 1] + " es:\n");
-
-        for (int i = 0; i < comidasDias.length; i++) {
-
-            System.out.println(comidasDias[i][dia - 1] + "\n");
+            JOptionPane.showInternalMessageDialog(null, "error al conectar \n" + e);
 
         }
 
-        reinicio();
+    }
+
+    //SELECT MODEL
+    public void showMenuSQL() throws InterruptedException {
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection conesion = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
+
+            int cd = Integer.parseInt(JOptionPane.showInputDialog("¿Que dia de la seman desea consultar? \n1. Lunes \n2. Martes \n3. Miercoles \n4. Jueves \n5. Viernes \n6. Sabado"));
+
+            //Select * from Prueba
+            Statement ejecutor = conesion.createStatement();
+            ResultSet respuesta = ejecutor.executeQuery("select nombre, dia, tipo  from comidas where codigo_dia = " + cd);
+
+            String texto = "";
+
+            while (respuesta.next()) {
+
+                texto = texto + respuesta.getString("tipo") + " del dia " + respuesta.getString("dia") + " es " + respuesta.getString("nombre") + "\n\n";
+                //"El MENU del DIA " + diasSemana[cd - 1] +
+            }
+
+            JOptionPane.showMessageDialog(null, texto);
+
+        } catch (Exception e) {
+
+            JOptionPane.showInternalMessageDialog(null, "error al conectar \n" + e);
+
+        }
+
     }
 
     // METODOS ESPECIALES PARA LOS PENSIONADOS
@@ -250,68 +161,113 @@ public class ClaseProyecto {
 
     }
 
-    public void reinicioPension() throws InterruptedException {
+    //CALENDAR STATUS MODEL
+    public void updateStatusSunday() {
 
-        Thread.sleep(3500);
+        try {
 
-        int lineas = 15;
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conesion = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
 
-        for (int i = 0; i < lineas; i++) {
+            Calendar calendar = Calendar.getInstance();
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-            System.out.println();
+            if (dayOfWeek == 1) {
 
-            //PUEDE REMPLAZARSE EL DO WHILE SI SE ENCUNETRA UNA FORMA DE LIMPIAR LA CONSOLA SIN TENER QUE AGREGAR UN MONTON DE ESPACIOS
-        }
+                for (int i = 1; i < 19; i++) {
 
-        System.out.println("\nComo Pensionado tiene acesso a todas estas funciones. Cual desea usar: \n");
+                    String comando = "Update comidas set estado = ? where codigo_dia = " + i;
+                    PreparedStatement declaracion = conesion.prepareStatement(comando);
 
-        opcionesPensionado();
+                    declaracion.setString(1, "Servido");
 
-    }
+                    int resultado = declaracion.executeUpdate();
+                    if (resultado > 0 && i == 18) {
 
-    public void getState() {
+                        JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente");
 
-        if (opcionState == 1 && desayuno == true) {
+                    }
 
-            System.out.println("El DESAYUNO esta SERVIDO.");
+                }
 
-        } else {
+            }
 
-            System.out.println("El DESAYUNO NO SERVIDO");
+        } catch (Exception e) {
 
-        }
-
-        if (opcionState == 2 && almuerzo == true) {
-
-            System.out.println("El ALMUERZO esta SERVIDO.");
-
-        } else {
-
-            System.out.println("El ALMUERZO NO SERVIDO");
-
-        }
-
-        if (opcionState == 3 && cena == true) {
-
-            System.out.println("La CENA esta SERVIDA.");
-
-        } else {
-
-            System.out.println("La CENA NO SERVIDA");
+            JOptionPane.showInternalMessageDialog(null, "error al conectar \n" + e);
 
         }
 
     }
 
-    public void getFoodDay() throws InterruptedException {
+    //SELECT UPDATE MENU MODEL
+    public void setMenuDay() {
 
-        int opcionFood = Integer.parseInt(JOptionPane.showInputDialog("\n¿Que plato desea concoer el menu? \n1. Desayuno \n2. Almuerzo \n3. Cena"));
-        setOpcionFood(opcionFood);
+        try {
 
-        System.out.println("\n" + stockFood[opcionFood - 1] + " del DIA " + diasSemana[dia] + " es: \n" + comidasDias[opcionFood - 1][dia]);
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conesion = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
 
-        reinicioPension();
+            int apartamento = Integer.parseInt(JOptionPane.showInputDialog("¿Que apartamento desea modificar?"));
+
+            int food = Integer.parseInt(JOptionPane.showInputDialog("¿Que comida va a modificar? \n\n1. Desayuno \n2. Almuerzo \n3. Cena"));
+
+            if (apartamento == 4) {
+
+                JOptionPane.showMessageDialog(null, "Puedes cambiar el estado del " + stockFood[food - 1] + " de estos pensionados: ");
+
+                Statement ejecutor = conesion.createStatement();
+                ResultSet respuesta = ejecutor.executeQuery("select nombre, id_apart from usuario where apartamento = " + apartamento);
+
+                String texto = "";
+
+                while (respuesta.next()) {
+
+                    texto = texto + respuesta.getString("id_apart") + ". " + respuesta.getString("nombre") + "\n\n";
+
+                }
+
+                JOptionPane.showMessageDialog(null, texto);
+
+            }
+
+            if (food == 1) {
+
+                int pension_id = Integer.parseInt(JOptionPane.showInputDialog("¿Cual va a escoger?"));
+                String comando = "Update usuario set desayuno = ? where id_apart = " + pension_id;
+
+                PreparedStatement declaracion = conesion.prepareStatement(comando);
+                
+                int eleccion = Integer.parseInt(JOptionPane.showInputDialog("¿Se le servira o no? \n1. SI \n2. NO"));
+                
+                if (eleccion == 1) {
+                    
+                    declaracion.setString(1, "SERVIR");
+                    
+                } else{
+                    
+                    declaracion.setString(1, "NO SERVIR");
+                
+                }
+
+                
+
+                int resultado = declaracion.executeUpdate();
+                if (resultado > 0) {
+
+                    JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente. El ");
+
+                }
+
+            }
+
+            String comando = "Update usuario set desayuno = ?, almuerzo = ?, cena = ? where apartamento = " + apartamento;
+
+        } catch (Exception e) {
+
+            JOptionPane.showInternalMessageDialog(null, "error al conectar \n" + e);
+
+        }
 
     }
-
 }

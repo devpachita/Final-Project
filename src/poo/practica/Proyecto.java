@@ -1,25 +1,16 @@
 
 package poo.practica;
 
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class Proyecto {
 
     public static void main(String[] args) throws InterruptedException {
         
-        String nombre1, contraseñaOwner = "1", contraseñaPensionado = "2";
-        int hora, dia = 0, opcionFood = 0, opcionState = 0, diaCambio = 0, opcionCambio = 0;
-        boolean desayuno, almuerzo, cena;
+        String nombre1 = "", contraseñaOwner = "1", contraseñaPensionado = "2";
         
         int usuario, opcionOwner;
         boolean salir = false;
-        
-        nombre1 = "Francisco";
-        hora = 700;
-        desayuno = false;
-        almuerzo = false;
-        cena = false;
         
         //AÑADIR USUARIO BASE DE DATOS
         
@@ -37,9 +28,7 @@ public class Proyecto {
         
         */
         
-        Scanner sn = new Scanner (System.in);
-        
-        ClaseProyecto pension = new ClaseProyecto(nombre1, hora, dia, opcionFood, opcionState, diaCambio, opcionCambio, desayuno, almuerzo, cena);
+        ClaseProyecto pension = new ClaseProyecto(nombre1);
        
        //Inicio con el dueño de la pension
        
@@ -69,9 +58,7 @@ public class Proyecto {
                 
             
             
-            }while(comp == 0);
-            
-                
+            }while(comp == 0); 
                 
                 if (comp == 1) {
                     
@@ -87,46 +74,17 @@ public class Proyecto {
                     
                             case 1:
                             
-//                                hora = Integer.parseInt(JOptionPane.showInputDialog("¿Que hora es?"));
-//                                pension.setHora(hora);
-//                        
-//                                if (hora >= 700 && hora <1200 ) {
-//                                
-//                                    pension.setDesayuno(true);
-//                                    pension.setAlmuerzo(false);
-//                                    pension.setCena(false);
-//                                    System.out.println("A todos los pensionados se les ha cambiado el estado a SERVIDO del DESAYUNO.");
-//                                    
-//                                    pension.reinicio();
-//                                    
-//                                }else if(hora >= 1200 && hora < 1800){
-//                                
-//                                    pension.setDesayuno(true);
-//                                    pension.setAlmuerzo(true);
-//                                    pension.setCena(false);
-//                                    System.out.println("A todos los pensionados se les ha cambiado el estado a SERVIDO del DESAYUNO y ALMUERZO."); 
-//                                     
-//                                    pension.reinicio();
-//                                    
-//                                }else if(hora >= 1800 && hora < 0000){
-//                                
-//                                    pension.setDesayuno(true);
-//                                    pension.setAlmuerzo(true);
-//                                    pension.setCena(true);
-//                                    System.out.println("A todos los pensionados se les ha cambiado el estado de TODAS LAS COMIDAS como SERVIDAS.");
-//                                    
-//                                    pension.reinicio();
-//
-//                                }
+                                //pension.updateStatusSunday(); //ESTE METODO OCURRE EN EL BACKGROUND
+                                pension.setMenuDay();
                                 
-                                //SE NECESITA LA BASE DE DATOS 
-                            
                                 break;
                         
                             case 2:
                                 
                                 pension.showMenuSQL();
                                 
+                            break;
+                            
                             case 3:
                                 
                                 pension.changeMenuSQL();
@@ -150,12 +108,12 @@ public class Proyecto {
 
                 if (contraseña.equals(contraseñaPensionado)) {
                     
-                    JOptionPane.showMessageDialog(null, "Welcome Pensionado");
-                    dia = Integer.parseInt(JOptionPane.showInputDialog("¿En que dia se encuentra?"));
-                    System.out.println("\nComo pensionado tiene acesso a todas estas funciones. Cual desea usar: \n");
-                    pension.opcionesPensionado();
-                    
-                    if (dia >= 1 && dia <= 6) {
+//                    JOptionPane.showMessageDialog(null, "Welcome Pensionado");
+//                    dia = Integer.parseInt(JOptionPane.showInputDialog("¿En que dia se encuentra?"));
+//                    System.out.println("\nComo pensionado tiene acesso a todas estas funciones. Cual desea usar: \n");
+//                    pension.opcionesPensionado();
+//                    
+//                    if (dia >= 1 && dia <= 6) {
                     
                     do{
                         
@@ -165,20 +123,14 @@ public class Proyecto {
                             
                             case 1:
 
-                                opcionFood = Integer.parseInt(JOptionPane.showInputDialog("\n¿Que plato desea concoer el menu? \n1. Desayuno \n2. Almuerzo \n3. Cena"));
-                                pension.setOpcionFood(opcionFood);
-                                pension.getFoodDay();
-                                pension.reinicioPension();
+                                    //Colocar showMenuSQL en case 1.
                                 
                                 
                             break;
                             
                             case 2:
                                 
-                                opcionState = Integer.parseInt(JOptionPane.showInputDialog("Desea saber el estado de que comida. \n1. Desayuno \n2. Almuerzo \n3. Cena"));
-                                pension.setOpcionState(opcionState);
-                                pension.getState();
-                                pension.reinicioPension();
+                                //Select estado de la base de datos de la posicion escogida del menu, e imprima tambien que comida es.
                                 
                             break;
                             
@@ -196,7 +148,7 @@ public class Proyecto {
                             
                             case 5:
                                 
-                                pension.showMenu();
+                                pension.showMenuSQL();
                                 
                             break;
                             
@@ -218,7 +170,7 @@ public class Proyecto {
             
             }
                 
-            }else{
+//            }else{
                 
                 System.out.println("Hoy no se sirve ninguna comida.");
                 
@@ -229,4 +181,4 @@ public class Proyecto {
 
 
 
-    }
+ 
