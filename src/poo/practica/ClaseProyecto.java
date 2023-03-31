@@ -220,7 +220,7 @@ public class ClaseProyecto {
                 ResultSet respuesta = ejecutor.executeQuery("select nombre, id_apart from usuario where apartamento = " + apartamento);
 
                 String texto = "";
-
+                
                 while (respuesta.next()) {
 
                     texto = texto + respuesta.getString("id_apart") + ". " + respuesta.getString("nombre") + "\n\n";
@@ -235,6 +235,39 @@ public class ClaseProyecto {
 
                 int pension_id = Integer.parseInt(JOptionPane.showInputDialog("¿Cual va a escoger?"));
                 String comando = "Update usuario set desayuno = ? where id_apart = " + pension_id;
+                
+                Statement ejecutor = conesion.createStatement();
+                ResultSet name = ejecutor.executeQuery("select nombre from usuario where id_apart = " + pension_id);
+
+                String nombre = name.getString("nombre");
+                
+                PreparedStatement declaracion = conesion.prepareStatement(comando);
+                
+                int eleccion = Integer.parseInt(JOptionPane.showInputDialog("¿Se le servira o no? \n1. SI \n2. NO"));
+                
+                if (eleccion == 1) {
+                    
+                    declaracion.setString(1, "SERVIR");
+                    
+                } else{
+                    
+                    declaracion.setString(1, "NO SERVIR");
+                
+                }
+
+                
+
+                int resultado = declaracion.executeUpdate();
+                if (resultado > 0) {
+
+                    JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente. El " + stockFood[food - 1] + " de " + nombre);
+
+                }
+
+            } else if (food == 2){
+            
+                int pension_id = Integer.parseInt(JOptionPane.showInputDialog("¿Cual va a escoger?"));
+                String comando = "Update usuario set almuerzo = ? where id_apart = " + pension_id;
 
                 PreparedStatement declaracion = conesion.prepareStatement(comando);
                 
@@ -258,7 +291,8 @@ public class ClaseProyecto {
                     JOptionPane.showMessageDialog(null, "Se ha actualizado correctamente. El ");
 
                 }
-
+                
+            
             }
 
             String comando = "Update usuario set desayuno = ?, almuerzo = ?, cena = ? where apartamento = " + apartamento;
